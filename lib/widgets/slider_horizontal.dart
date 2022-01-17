@@ -1,4 +1,5 @@
 import 'package:bam/bloc/concesionario_bloc.dart';
+import 'package:bam/utlis/utils_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,17 +8,9 @@ class SliderHorizontal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<int, String> marcas = {
-      1: 'assets/toyota.png',
-      2: 'assets/volvo.png',
-      3: 'assets/honda.png',
-      4: 'assets/chevrolet.png',
-      5: 'assets/maserati.png',
-      6: 'assets/mercedes.png',
-    };
     generarLista() {
       final List<Widget> lista = [];
-      marcas.forEach((key, value) {
+      UtilsContants.marcas.forEach((key, value) {
         lista.add(GestureDetector(
           onTap: () => BlocProvider.of<ConcesionarioBloc>(context)
               .add(ListarPorMarca(key)),

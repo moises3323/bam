@@ -1,6 +1,7 @@
 import 'package:bam/bloc/concesionario_bloc.dart';
 import 'package:bam/models/cotizacion_model.dart';
 import 'package:bam/styles/inputs_style.dart';
+import 'package:bam/utlis/utils_constants.dart';
 import 'package:bam/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,7 +127,8 @@ class _HeaderImage extends StatelessWidget {
             FadeInImage(
               width: 64,
               placeholder: const AssetImage('assets/nube.gif'),
-              image: NetworkImage(vehiculo.imagen),
+              image:
+                  AssetImage(UtilsContants.marcas[vehiculo.idMarcas.toInt()]!),
             ),
             Text(
               vehiculo.nombre,
