@@ -78,7 +78,7 @@ class _CardCotizacion extends StatelessWidget {
         children: [
           FadeInImage(
               width: 130,
-              placeholder: const AssetImage('assets/no-image.jpg'),
+              placeholder: const AssetImage('assets/nube.gif'),
               image: NetworkImage(cotizacion.vehiculo.imagen)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),

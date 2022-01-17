@@ -125,7 +125,7 @@ class _HeaderImage extends StatelessWidget {
           children: [
             FadeInImage(
               width: 64,
-              placeholder: const AssetImage('assets/no-image.jpg'),
+              placeholder: const AssetImage('assets/nube.gif'),
               image: NetworkImage(vehiculo.imagen),
             ),
             Text(
@@ -134,7 +134,7 @@ class _HeaderImage extends StatelessWidget {
             ),
             FadeInImage(
               width: 64,
-              placeholder: const AssetImage('assets/no-image.jpg'),
+              placeholder: const AssetImage('assets/nube.gif'),
               image: NetworkImage(vehiculo.imagen),
             ),
           ],

@@ -16,7 +16,7 @@ class CarDetail extends StatelessWidget {
         GestureDetector(
           onTap: () => onTap(),
           child: FadeInImage(
-            placeholder: const AssetImage('assets/no-image.jpg'),
+            placeholder: const AssetImage('assets/nube.gif'),
             image: NetworkImage(vehiculo.imagen),
             height: 260,
             width: 260,
