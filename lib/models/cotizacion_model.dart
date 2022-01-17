@@ -57,6 +57,6 @@ class CotizacionModel {
         "correo": correo,
         "telefono": telefono,
         "direccion": direccion,
-        "descripcion": descripcion,
+        "descripcion": descripcion ?? '',
       };
 }

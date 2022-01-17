@@ -42,12 +42,13 @@ class _VehiculosScreenState extends State<VehiculosScreen> {
                 child: ListView.builder(
                   //controller: scrollController,
                   scrollDirection: Axis.vertical,
-                  itemCount: state.listVehiculos!.length,
+                  itemCount: state.listaFiltradaVehiculos!.length,
                   itemBuilder: (_, int index) => CarDetail(
-                    vehiculo: state.listVehiculos![index],
+                    vehiculo: state.listaFiltradaVehiculos![index],
                     onTap: () {
-                      BlocProvider.of<ConcesionarioBloc>(context)
-                          .add(SelectedVehiculo(state.listVehiculos![index]));
+                      BlocProvider.of<ConcesionarioBloc>(context).add(
+                          SelectedVehiculo(
+                              state.listaFiltradaVehiculos![index]));
                       Navigator.pushNamed(context, 'detalle');
                     },
                   ),

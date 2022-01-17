@@ -11,8 +11,8 @@ class ConcesionarioService {
     final url = Uri.http(_baseUrl, '/cotizaciones');
 
     try {
-      final data = cotizacion.toJson();
-      final res = await http.post(url, body: cotizacion.toJson());
+      final data = cotizacion.toMap();
+      final res = await http.post(url, body: data);
       print(res);
       return true;
     } catch (e) {

@@ -15,3 +15,8 @@ class SelectedVehiculo extends ConcesionarioEvent {
 
   SelectedVehiculo(this.selectedVehiculo);
 }
+
+class ListarPorMarca extends ConcesionarioEvent {
+  final int marcaSelected;
+  ListarPorMarca(this.marcaSelected);
+}
