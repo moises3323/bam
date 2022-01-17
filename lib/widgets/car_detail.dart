@@ -1,7 +1,11 @@
+import 'package:bam/models/vehiculo_model.dart';
 import 'package:flutter/material.dart';
 
 class CarDetail extends StatelessWidget {
-  const CarDetail({Key? key}) : super(key: key);
+  final VehiculoModel vehiculo;
+  final Function onTap;
+  const CarDetail({Key? key, required this.vehiculo, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -10,18 +14,18 @@ class CarDetail extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(children: [
         GestureDetector(
-          onTap: () => Navigator.pushNamed(context, 'detalle'),
-          child: const FadeInImage(
-            placeholder: AssetImage('assets/no-image.jpg'),
-            image: AssetImage('assets/ghibli.png'),
+          onTap: () => onTap(),
+          child: FadeInImage(
+            placeholder: const AssetImage('assets/no-image.jpg'),
+            image: NetworkImage(vehiculo.imagen),
             height: 260,
             width: 260,
           ),
         ),
         Container(
           width: 375,
-          child: const Text(
-            'Ghibli',
+          child: Text(
+            vehiculo.nombre,
             style: TextStyle(
                 color: Colors.black, fontSize: 24, fontWeight: FontWeight.w600),
             textAlign: TextAlign.left,
@@ -29,9 +33,9 @@ class CarDetail extends StatelessWidget {
         ),
         Container(
           width: 375,
-          child: const Text(
-            'With designer looks and twin-turbo power, the 2022 Maserati Ghibli brings a ton of Italian attitude to the mid-size luxury sedan party.',
-            style: TextStyle(
+          child: Text(
+            vehiculo.descripcion ?? '--6+',
+            style: const TextStyle(
                 color: Colors.black,
                 fontSize: 12,
                 fontWeight: FontWeight.normal),

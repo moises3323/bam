@@ -1,13 +1,26 @@
+import 'package:bam/bloc/concesionario_bloc.dart';
 import 'package:bam/widgets/car_detail.dart';
 import 'package:bam/widgets/slider_horizontal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class VehiculosScreen extends StatelessWidget {
+class VehiculosScreen extends StatefulWidget {
+  @override
+  State<VehiculosScreen> createState() => _VehiculosScreenState();
+}
+
+class _VehiculosScreenState extends State<VehiculosScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<ConcesionarioBloc>(context).add(ObtenerVehiculos());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white12,
         title: const Text(
           'Vehículos',
           style: TextStyle(
@@ -19,25 +32,29 @@ class VehiculosScreen extends StatelessWidget {
       body: Column(
         children: [
           Container(
+            width: double.infinity,
             height: 88,
-            child: Expanded(
-              child: ListView.builder(
-                  //controller: scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  itemBuilder: (_, int index) => SliderHorizontal()),
-            ),
+            child: Expanded(child: SliderHorizontal()),
           ),
-          Container(
-            //width: 300,
-            child: Expanded(
-              child: ListView.builder(
+          Container(child: BlocBuilder<ConcesionarioBloc, ConcesionarioState>(
+            builder: (context, state) {
+              return Expanded(
+                child: ListView.builder(
                   //controller: scrollController,
                   scrollDirection: Axis.vertical,
-                  itemCount: 6,
-                  itemBuilder: (_, int index) => CarDetail()),
-            ),
-          ),
+                  itemCount: state.listVehiculos!.length,
+                  itemBuilder: (_, int index) => CarDetail(
+                    vehiculo: state.listVehiculos![index],
+                    onTap: () {
+                      BlocProvider.of<ConcesionarioBloc>(context)
+                          .add(SelectedVehiculo(state.listVehiculos![index]));
+                      Navigator.pushNamed(context, 'detalle');
+                    },
+                  ),
+                ),
+              );
+            },
+          )),
         ],
       ),
     );
