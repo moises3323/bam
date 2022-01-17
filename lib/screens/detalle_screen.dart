@@ -36,6 +36,7 @@ class DetalleScreen extends StatelessWidget {
           elevation: 0,
         ),
         body: BlocBuilder<ConcesionarioBloc, ConcesionarioState>(
+          buildWhen: (previous, current) => current.selectedVehiculo != null,
           builder: (context, state) {
             final VehiculoModel vehiculo = state.selectedVehiculo!;
             return Column(

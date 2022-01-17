@@ -11,7 +11,8 @@ class VehiculosScreen extends StatefulWidget {
   State<VehiculosScreen> createState() => _VehiculosScreenState();
 }
 
-class _VehiculosScreenState extends State<VehiculosScreen> {
+class _VehiculosScreenState extends State<VehiculosScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     BlocProvider.of<ConcesionarioBloc>(context).add(ObtenerVehiculos());
@@ -19,20 +20,33 @@ class _VehiculosScreenState extends State<VehiculosScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white12,
-        title: const Text(
-          'Vehículos',
-          style: TextStyle(
-              color: Colors.black, fontSize: 32, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.left,
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          margin: const EdgeInsets.only(left: 24, top: 16),
+          alignment: Alignment.centerLeft,
+          child: const Text(
+            'Vehículos',
+            style: TextStyle(
+                color: Colors.black, fontSize: 32, fontWeight: FontWeight.w600),
+          ),
         ),
         actions: [
           Container(
             child: GestureDetector(
-              child: const Icon(Icons.list_alt, color: Colors.black),
+              child: Column(children: const [
+                Icon(Icons.list_alt, color: Colors.black),
+                Text(
+                  'Cotizaciones',
+                  style: TextStyle(color: Colors.black, fontSize: 10),
+                )
+              ]),
               onTap: () => Navigator.pushNamed(context, 'cotizaciones'),
             ),
             margin: const EdgeInsets.only(right: 24),

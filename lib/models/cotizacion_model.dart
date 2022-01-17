@@ -6,29 +6,29 @@ import 'dart:convert';
 
 class CotizacionModel {
   CotizacionModel({
-    required this.idConcesionario,
-    required this.idPersona,
-    required this.idVehiculo,
-    required this.nombres,
-    required this.apellidos,
-    required this.sexo,
-    required this.edad,
-    required this.correo,
-    required this.telefono,
-    required this.direccion,
+    this.idConcesionario,
+    this.idPersona,
+    this.idVehiculo,
+    this.nombres,
+    this.apellidos,
+    this.sexo,
+    this.edad,
+    this.correo,
+    this.telefono,
+    this.direccion,
     this.descripcion,
   });
 
-  String idConcesionario;
-  String idPersona;
-  String idVehiculo;
-  String nombres;
-  String apellidos;
-  String sexo;
-  String edad;
-  String correo;
-  String telefono;
-  String direccion;
+  String? idConcesionario;
+  String? idPersona;
+  String? idVehiculo;
+  String? nombres;
+  String? apellidos;
+  String? sexo;
+  String? edad;
+  String? correo;
+  String? telefono;
+  String? direccion;
   String? descripcion;
 
   factory CotizacionModel.fromJson(String str) =>
@@ -42,8 +42,8 @@ class CotizacionModel {
         idVehiculo: json["id_vehiculo"],
         nombres: json["nombres"],
         apellidos: json["apellidos"],
-        sexo: json["sexo"],
-        edad: json["edad"],
+        sexo: json["sexo"] ?? '',
+        edad: json["edad"] ?? '0',
         correo: json["correo"],
         telefono: json["telefono"],
         direccion: json["direccion"],
@@ -51,16 +51,16 @@ class CotizacionModel {
       );
 
   Map<String, dynamic> toMap() => {
-        "id_concesionario": idConcesionario,
-        "id_persona": idPersona,
+        "id_concesionario": idConcesionario ?? '1',
+        "id_persona": idPersona ?? '1',
         "id_vehiculo": idVehiculo,
-        "nombres": nombres,
-        "apellidos": apellidos,
-        "sexo": sexo,
-        "edad": edad,
-        "correo": correo,
-        "telefono": telefono,
-        "direccion": direccion,
+        "nombres": nombres ?? '',
+        "apellidos": apellidos ?? '',
+        "sexo": sexo ?? '',
+        "edad": edad ?? '0',
+        "correo": correo ?? '',
+        "telefono": telefono ?? '',
+        "direccion": direccion ?? '',
         "descripcion": descripcion ?? '',
       };
 }

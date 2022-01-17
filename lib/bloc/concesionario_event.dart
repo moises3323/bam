@@ -22,3 +22,5 @@ class ListarPorMarca extends ConcesionarioEvent {
 }
 
 class ListarCotizaciones extends ConcesionarioEvent {}
+
+class CargarCatalogos extends ConcesionarioEvent {}

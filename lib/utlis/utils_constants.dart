@@ -4,7 +4,7 @@ class UtilsContants {
     2: 'assets/volvo.png',
     3: 'assets/honda.png',
     4: 'assets/chevrolet.png',
-    5: 'assets/maserati.png',
-    6: 'assets/mercedes.png',
+    5: 'assets/mercedes.png',
+    6: 'assets/maserati.png',
   };
 }

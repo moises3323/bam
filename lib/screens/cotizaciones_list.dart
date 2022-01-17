@@ -37,7 +37,8 @@ class _CotizacionesListState extends State<CotizacionesList> {
             Container(
               child: GestureDetector(
                 child: const Icon(Icons.arrow_back, color: Colors.black),
-                onTap: () => Navigator.pop(context),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, 'vehiculos'),
               ),
               margin: const EdgeInsets.only(right: 24),
             )
@@ -82,21 +83,27 @@ class _CardCotizacion extends StatelessWidget {
               image: NetworkImage(cotizacion.vehiculo.imagen)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  cotizacion.concesionaria.nombre,
-                  style: const TextStyle(fontSize: 20),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const Text('CLIENTE'),
-                Text('${cotizacion.nombres} ${cotizacion.apellidos}'),
-                Text('Tel: ${cotizacion.telefono}'),
-                Text(cotizacion.correo),
-                Text('Dirección: ${cotizacion.telefono}'),
-              ],
+            child: SizedBox(
+              width: 200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cotizacion.concesionaria.nombre,
+                    style: const TextStyle(fontSize: 20),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Text('CLIENTE'),
+                  Text('${cotizacion.nombres} ${cotizacion.apellidos}'),
+                  Text('Tel: ${cotizacion.telefono}'),
+                  Text(cotizacion.correo),
+                  Text(
+                    'Dirección: ${cotizacion.direccion}',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           )
         ],

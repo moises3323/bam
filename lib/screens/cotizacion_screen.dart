@@ -1,13 +1,26 @@
 import 'package:bam/bloc/concesionario_bloc.dart';
+import 'package:bam/models/concesionarias_model.dart';
 import 'package:bam/models/cotizacion_model.dart';
+import 'package:bam/models/persona_model.dart';
 import 'package:bam/styles/inputs_style.dart';
 import 'package:bam/utlis/utils_constants.dart';
 import 'package:bam/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CotizacionScreen extends StatelessWidget {
+class CotizacionScreen extends StatefulWidget {
   const CotizacionScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CotizacionScreen> createState() => _CotizacionScreenState();
+}
+
+class _CotizacionScreenState extends State<CotizacionScreen> {
+  @override
+  void initState() {
+    BlocProvider.of<ConcesionarioBloc>(context).add(CargarCatalogos());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +52,14 @@ class CotizacionScreen extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              children: [const _HeaderImage(), _Form()],
+              children: [
+                const _HeaderImage(),
+                BlocBuilder<ConcesionarioBloc, ConcesionarioState>(
+                  builder: (context, state) {
+                    return _Form(state);
+                  },
+                )
+              ],
             ),
           ),
         ),
@@ -49,62 +69,77 @@ class CotizacionScreen extends StatelessWidget {
 }
 
 class _Form extends StatelessWidget {
-  _Form({Key? key}) : super(key: key);
+  final ConcesionarioState state;
+  _Form(this.state, {Key? key}) : super(key: key);
 
   final Map<String, dynamic> form = {};
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _Select(form: form, name: 'id_concesionario'),
-        _Select(bottom: 16, form: form, name: 'id_persona'),
-        Container(
-          alignment: Alignment.centerLeft,
-          child: const Text(
-            'Datos del cliente',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-        ),
-        Input(form: form, name: 'nombres', hintText: 'Nombres'),
-        Input(form: form, name: 'apellidos', hintText: 'Apellidos'),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final personaCatalogo = state.personaCatalogo ?? [];
+    final concecionariasCatalogo = state.concecionariasCatalogo ?? [];
+    return BlocBuilder<ConcesionarioBloc, ConcesionarioState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            SizedBox(
-              width: 157,
-              child: _Select(form: form, name: 'sexo'),
+            _Select(
+              form: form,
+              name: 'id_concesionario',
+              items: concecionariasCatalogo.map((ConcesionariasModel value) {
+                return DropdownMenuItem(
+                  value: value.idConcesionario.toString(),
+                  child: SizedBox(height: 32, child: Text(value.nombre)),
+                );
+              }).toList(),
             ),
-            SizedBox(
-              width: 157,
-              child: Input(form: form, name: 'edad', hintText: 'Edad'),
+            const SizedBox(
+              height: 20,
             ),
-            //Input(),
+            _Select(
+              bottom: 16,
+              form: form,
+              name: 'id_persona',
+              items: personaCatalogo.map((PersonaModel value) {
+                return DropdownMenuItem(
+                  value: value.idPersona.toString(),
+                  child: SizedBox(height: 32, child: Text(value.nombres)),
+                );
+              }).toList(),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                'Datos del cliente',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+            ),
+            Input(form: form, name: 'nombres', hintText: 'Nombres'),
+            Input(form: form, name: 'apellidos', hintText: 'Apellidos'),
+            Input(form: form, name: 'correo', hintText: 'Correo'),
+            Input(form: form, name: 'telefono', hintText: 'Teléfono'),
+            Input(
+              form: form,
+              name: 'direccion',
+              hintText: 'Dirección',
+              bottom: 24,
+            ),
+            ButtonStyled(
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                // final state = BlocProvider.of<ConcesionarioBloc>(context).state;
+                final idVehiculo = state.selectedVehiculo!.idVehiculo;
+                form['id_vehiculo'] = idVehiculo.toString();
+                BlocProvider.of<ConcesionarioBloc>(context)
+                    .add(RealizarCotizacion(CotizacionModel.fromMap(form)));
+
+                Navigator.pushReplacementNamed(context, 'vehiculos');
+              },
+              textButton: 'REALIZAR COTIZACIÓN',
+              bottom: 24,
+            )
           ],
-        ),
-        Input(form: form, name: 'correo', hintText: 'Correo'),
-        Input(form: form, name: 'telefono', hintText: 'Teléfono'),
-        Input(
-          form: form,
-          name: 'direccion',
-          hintText: 'Dirección',
-          bottom: 24,
-        ),
-        ButtonStyled(
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            final idVehiculo = BlocProvider.of<ConcesionarioBloc>(context)
-                .state
-                .selectedVehiculo!
-                .idVehiculo;
-            form['id_vehiculo'] = idVehiculo.toString();
-            BlocProvider.of<ConcesionarioBloc>(context)
-                .add(RealizarCotizacion(CotizacionModel.fromMap(form)));
-          },
-          textButton: 'REALIZAR COTIZACIÓN',
-          bottom: 24,
-        )
-      ],
+        );
+      },
     );
   }
 }
@@ -117,72 +152,79 @@ class _HeaderImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ConcesionarioBloc, ConcesionarioState>(
+        buildWhen: (previous, current) =>
+            current.selectedVehiculo != null &&
+            previous.selectedVehiculo != current.selectedVehiculo,
         builder: (context, state) {
-      final vehiculo = state.selectedVehiculo!;
-      return Container(
-        margin: const EdgeInsets.symmetric(vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FadeInImage(
-              width: 64,
-              placeholder: const AssetImage('assets/nube.gif'),
-              image:
-                  AssetImage(UtilsContants.marcas[vehiculo.idMarcas.toInt()]!),
+          final vehiculo = state.selectedVehiculo!;
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FadeInImage(
+                  width: 64,
+                  placeholder: const AssetImage('assets/nube.gif'),
+                  image: AssetImage(
+                      UtilsContants.marcas[vehiculo.idMarcas.toInt()]!),
+                ),
+                Text(
+                  vehiculo.nombre,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.w600),
+                ),
+                FadeInImage(
+                  width: 64,
+                  placeholder: const AssetImage('assets/nube.gif'),
+                  image: NetworkImage(vehiculo.imagen),
+                ),
+              ],
             ),
-            Text(
-              vehiculo.nombre,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-            ),
-            FadeInImage(
-              width: 64,
-              placeholder: const AssetImage('assets/nube.gif'),
-              image: NetworkImage(vehiculo.imagen),
-            ),
-          ],
-        ),
-      );
-    });
+          );
+        });
   }
 }
 
 class _Select extends StatelessWidget {
-  const _Select(
-      {Key? key,
-      required this.form,
-      required this.name,
-      this.top = 12.0,
-      this.bottom = 0})
-      : super(key: key);
+  const _Select({
+    Key? key,
+    required this.form,
+    required this.name,
+    this.top = 12.0,
+    this.bottom = 0,
+    required this.items,
+  }) : super(key: key);
 
   final double top;
   final double bottom;
   final String name;
   final Map<String, dynamic> form;
   final String dropdownValue = '1';
+  final List<DropdownMenuItem<String>> items;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: top, bottom: bottom),
-      height: 50,
-      child: DropdownButtonFormField(
-        decoration: InputStyle.decoration(),
-        value: dropdownValue,
-        icon: const Icon(Icons.arrow_drop_down),
-        elevation: 16,
-        style: const TextStyle(color: Colors.black, fontSize: 10),
-        hint: const Text('Elegir concesionario'),
-        onChanged: (String? newValue) {
-          form[name] = newValue;
-        },
-        items: <String>['1', '2', '3', '4']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: SizedBox(child: Text(value)),
-          );
-        }).toList(),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Elir cclasdjflasjdlf',
+        ),
+        Container(
+          margin: EdgeInsets.only(top: top, bottom: bottom),
+          height: 50,
+          child: DropdownButtonFormField(
+              decoration: InputStyle.decoration(),
+              value: dropdownValue,
+              icon: const Icon(Icons.arrow_drop_down),
+              elevation: 16,
+              style: const TextStyle(color: Colors.black, fontSize: 10),
+              hint: const Text('Elegir concesionario'),
+              onChanged: (String? newValue) {
+                form[name] = newValue;
+              },
+              items: items),
+        ),
+      ],
     );
   }
 }

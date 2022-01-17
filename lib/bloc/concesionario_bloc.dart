@@ -1,5 +1,7 @@
+import 'package:bam/models/concesionarias_model.dart';
 import 'package:bam/models/cotizacion_model.dart';
 import 'package:bam/models/cotizacion_response_model.dart';
+import 'package:bam/models/persona_model.dart';
 import 'package:bam/models/vehiculo_model.dart';
 import 'package:bam/services/concesionario_service.dart';
 import 'package:bloc/bloc.dart';
@@ -24,7 +26,7 @@ class ConcesionarioBloc extends Bloc<ConcesionarioEvent, ConcesionarioState> {
       emit(
         ConcesionarioSetState(
             listVehiculosModel: listVehiculo,
-            marcaSeleccionada: 1,
+            marcaSeleccionada: state.marcaSelected,
             listaVehiculos: listaFiltrada),
       );
     });
@@ -61,6 +63,23 @@ class ConcesionarioBloc extends Bloc<ConcesionarioEvent, ConcesionarioState> {
             listVehiculosModel: state.listVehiculos,
             listaVehiculos: state.listVehiculos,
             listaCotizacionesAllLocal: listCotizaciones),
+      );
+    });
+
+    on<CargarCatalogos>((event, emit) async {
+      final listConcesionarias =
+          await concesionarioService.getConcesionariasCatalogo();
+      final listPersonas = await concesionarioService.getPersonasCatalogo();
+
+      emit(
+        ConcesionarioSetState(
+            marcaSeleccionada: state.marcaSelected,
+            listVehiculosModel: state.listVehiculos,
+            listaVehiculos: state.listVehiculos,
+            listaCotizacionesAllLocal: state.listaCotizacionesAll,
+            concecionariasCatalogoLocal: listConcesionarias,
+            personaCatalogoLocal: listPersonas,
+            vehiculoSelected: state.selectedVehiculo),
       );
     });
   }
