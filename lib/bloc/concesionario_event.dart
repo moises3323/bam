@@ -20,3 +20,5 @@ class ListarPorMarca extends ConcesionarioEvent {
   final int marcaSelected;
   ListarPorMarca(this.marcaSelected);
 }
+
+class ListarCotizaciones extends ConcesionarioEvent {}

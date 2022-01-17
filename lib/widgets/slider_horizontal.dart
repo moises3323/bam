@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SliderHorizontal extends StatelessWidget {
+  const SliderHorizontal({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final Map<int, String> marcas = {
@@ -20,7 +22,7 @@ class SliderHorizontal extends StatelessWidget {
           onTap: () => BlocProvider.of<ConcesionarioBloc>(context)
               .add(ListarPorMarca(key)),
           child: Container(
-            margin: EdgeInsets.only(left: 16),
+            margin: const EdgeInsets.only(left: 16),
             child: Column(
               children: [
                 Image(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bam/models/cotizacion_model.dart';
+import 'package:bam/models/cotizacion_response_model.dart';
 import 'package:bam/models/vehiculo_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,11 +13,9 @@ class ConcesionarioService {
 
     try {
       final data = cotizacion.toMap();
-      final res = await http.post(url, body: data);
-      print(res);
+      await http.post(url, body: data);
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -30,7 +29,20 @@ class ConcesionarioService {
       final listVehiculo = data.map((e) => VehiculoModel.fromMap(e)).toList();
       return listVehiculo;
     } catch (e) {
-      print(e);
+      return [];
+    }
+  }
+
+  Future<List<CotizacionReponseModel>> getCotizacionesAll() async {
+    final url = Uri.http(_baseUrl, '/cotizaciones');
+    try {
+      final res = await http.get(url);
+      final respuesta = json.decode(res.body);
+      final List data = respuesta['data'];
+      final listCotizaciones =
+          data.map((e) => CotizacionReponseModel.fromMap(e)).toList();
+      return listCotizaciones;
+    } catch (e) {
       return [];
     }
   }

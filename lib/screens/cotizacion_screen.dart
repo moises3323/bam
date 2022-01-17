@@ -38,7 +38,7 @@ class CotizacionScreen extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              children: [_HeaderImage(), _Form()],
+              children: [const _HeaderImage(), _Form()],
             ),
           ),
         ),
@@ -50,7 +50,7 @@ class CotizacionScreen extends StatelessWidget {
 class _Form extends StatelessWidget {
   _Form({Key? key}) : super(key: key);
 
-  Map<String, dynamic> form = {};
+  final Map<String, dynamic> form = {};
 
   @override
   Widget build(BuildContext context) {
@@ -70,11 +70,11 @@ class _Form extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
+            SizedBox(
               width: 157,
               child: _Select(form: form, name: 'sexo'),
             ),
-            Container(
+            SizedBox(
               width: 157,
               child: Input(form: form, name: 'edad', hintText: 'Edad'),
             ),
@@ -92,6 +92,11 @@ class _Form extends StatelessWidget {
         ButtonStyled(
           onPressed: () {
             FocusScope.of(context).unfocus();
+            final idVehiculo = BlocProvider.of<ConcesionarioBloc>(context)
+                .state
+                .selectedVehiculo!
+                .idVehiculo;
+            form['id_vehiculo'] = idVehiculo.toString();
             BlocProvider.of<ConcesionarioBloc>(context)
                 .add(RealizarCotizacion(CotizacionModel.fromMap(form)));
           },
@@ -125,7 +130,7 @@ class _HeaderImage extends StatelessWidget {
             ),
             Text(
               vehiculo.nombre,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
             ),
             FadeInImage(
               width: 64,
@@ -140,7 +145,7 @@ class _HeaderImage extends StatelessWidget {
 }
 
 class _Select extends StatelessWidget {
-  _Select(
+  const _Select(
       {Key? key,
       required this.form,
       required this.name,
@@ -151,8 +156,8 @@ class _Select extends StatelessWidget {
   final double top;
   final double bottom;
   final String name;
-  Map<String, dynamic> form;
-  String dropdownValue = '1';
+  final Map<String, dynamic> form;
+  final String dropdownValue = '1';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -172,7 +177,7 @@ class _Select extends StatelessWidget {
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Container(child: Text(value)),
+            child: SizedBox(child: Text(value)),
           );
         }).toList(),
       ),
@@ -185,9 +190,9 @@ class Input extends StatelessWidget {
   final double top;
   final double bottom;
   final String name;
-  Map<String, dynamic> form;
+  final Map<String, dynamic> form;
 
-  Input(
+  const Input(
       {Key? key,
       required this.form,
       required this.name,

@@ -1,7 +1,5 @@
-import 'dart:async';
-
 import 'package:bam/models/cotizacion_model.dart';
-import 'package:bam/models/marca_model.dart';
+import 'package:bam/models/cotizacion_response_model.dart';
 import 'package:bam/models/vehiculo_model.dart';
 import 'package:bam/services/concesionario_service.dart';
 import 'package:bloc/bloc.dart';
@@ -52,6 +50,17 @@ class ConcesionarioBloc extends Bloc<ConcesionarioEvent, ConcesionarioState> {
           listVehiculosModel: state.listVehiculos,
           listaVehiculos: newList,
         ),
+      );
+    });
+
+    on<ListarCotizaciones>((event, emit) async {
+      final listCotizaciones = await concesionarioService.getCotizacionesAll();
+      emit(
+        ConcesionarioSetState(
+            marcaSeleccionada: state.marcaSelected,
+            listVehiculosModel: state.listVehiculos,
+            listaVehiculos: state.listVehiculos,
+            listaCotizacionesAllLocal: listCotizaciones),
       );
     });
   }

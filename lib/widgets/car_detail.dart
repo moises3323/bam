@@ -22,16 +22,16 @@ class CarDetail extends StatelessWidget {
             width: 260,
           ),
         ),
-        Container(
+        SizedBox(
           width: 375,
           child: Text(
             vehiculo.nombre,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.black, fontSize: 24, fontWeight: FontWeight.w600),
             textAlign: TextAlign.left,
           ),
         ),
-        Container(
+        SizedBox(
           width: 375,
           child: Text(
             vehiculo.descripcion ?? '--6+',

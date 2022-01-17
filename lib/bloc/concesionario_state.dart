@@ -7,13 +7,15 @@ abstract class ConcesionarioState {
   final VehiculoModel? selectedVehiculo;
   final int? marcaSelected;
   final List<VehiculoModel>? listaFiltradaVehiculos;
+  final List<CotizacionReponseModel>? listaCotizacionesAll;
 
   const ConcesionarioState(
       {this.cotizacion,
       this.listVehiculos,
       this.selectedVehiculo,
       this.marcaSelected,
-      this.listaFiltradaVehiculos});
+      this.listaFiltradaVehiculos,
+      this.listaCotizacionesAll});
 }
 
 class ConcesionarioInitialState extends ConcesionarioState {
@@ -23,7 +25,8 @@ class ConcesionarioInitialState extends ConcesionarioState {
             listVehiculos: [],
             selectedVehiculo: null,
             marcaSelected: 1,
-            listaFiltradaVehiculos: []);
+            listaFiltradaVehiculos: [],
+            listaCotizacionesAll: []);
 }
 
 class ConcesionarioSetState extends ConcesionarioState {
@@ -32,17 +35,20 @@ class ConcesionarioSetState extends ConcesionarioState {
   final VehiculoModel? vehiculoSelected;
   final int? marcaSeleccionada;
   final List<VehiculoModel>? listaVehiculos;
+  final List<CotizacionReponseModel>? listaCotizacionesAllLocal;
 
   const ConcesionarioSetState(
       {this.cotizacionModel,
       this.listVehiculosModel,
       this.vehiculoSelected,
       this.marcaSeleccionada,
-      this.listaVehiculos})
+      this.listaVehiculos,
+      this.listaCotizacionesAllLocal})
       : super(
             cotizacion: cotizacionModel,
             listVehiculos: listVehiculosModel,
             selectedVehiculo: vehiculoSelected,
             marcaSelected: marcaSeleccionada,
-            listaFiltradaVehiculos: listaVehiculos);
+            listaFiltradaVehiculos: listaVehiculos,
+            listaCotizacionesAll: listaCotizacionesAllLocal);
 }

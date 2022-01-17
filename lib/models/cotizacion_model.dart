@@ -8,6 +8,7 @@ class CotizacionModel {
   CotizacionModel({
     required this.idConcesionario,
     required this.idPersona,
+    required this.idVehiculo,
     required this.nombres,
     required this.apellidos,
     required this.sexo,
@@ -20,6 +21,7 @@ class CotizacionModel {
 
   String idConcesionario;
   String idPersona;
+  String idVehiculo;
   String nombres;
   String apellidos;
   String sexo;
@@ -37,6 +39,7 @@ class CotizacionModel {
   factory CotizacionModel.fromMap(Map<String, dynamic> json) => CotizacionModel(
         idConcesionario: json["id_concesionario"],
         idPersona: json["id_persona"],
+        idVehiculo: json["id_vehiculo"],
         nombres: json["nombres"],
         apellidos: json["apellidos"],
         sexo: json["sexo"],
@@ -50,6 +53,7 @@ class CotizacionModel {
   Map<String, dynamic> toMap() => {
         "id_concesionario": idConcesionario,
         "id_persona": idPersona,
+        "id_vehiculo": idVehiculo,
         "nombres": nombres,
         "apellidos": apellidos,
         "sexo": sexo,

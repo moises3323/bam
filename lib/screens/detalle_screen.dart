@@ -6,14 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetalleScreen extends StatelessWidget {
+  const DetalleScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Container(
+          title: const SizedBox(
             width: 375,
-            child: const Text(
+            child: Text(
               'Detalle',
               style: TextStyle(
                   color: Colors.black,
@@ -25,10 +27,10 @@ class DetalleScreen extends StatelessWidget {
           actions: [
             Container(
               child: GestureDetector(
-                child: Icon(Icons.arrow_back, color: Colors.black),
+                child: const Icon(Icons.arrow_back, color: Colors.black),
                 onTap: () => Navigator.pop(context),
               ),
-              margin: EdgeInsets.only(right: 24),
+              margin: const EdgeInsets.only(right: 24),
             )
           ],
           elevation: 0,
@@ -43,9 +45,9 @@ class DetalleScreen extends StatelessWidget {
                   onTap: () {},
                 ),
                 const SizedBox(height: 16.0),
-                Container(
+                const SizedBox(
                   width: 340,
-                  child: const Text(
+                  child: Text(
                     'Especificaciones',
                     style: TextStyle(
                         color: Colors.black,
@@ -54,7 +56,7 @@ class DetalleScreen extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: 340,
                   height: 90,
                   child: ListView(
