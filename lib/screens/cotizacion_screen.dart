@@ -40,7 +40,7 @@ class _CotizacionScreenState extends State<CotizacionScreen> {
           Container(
             child: GestureDetector(
               child: const Icon(Icons.arrow_back, color: Colors.black),
-              onTap: () => Navigator.pop(context),
+              onTap: () => Navigator.pushReplacementNamed(context, 'detalle'),
             ),
             margin: const EdgeInsets.only(right: 24),
           )

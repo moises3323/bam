@@ -28,7 +28,8 @@ class DetalleScreen extends StatelessWidget {
             Container(
               child: GestureDetector(
                 child: const Icon(Icons.arrow_back, color: Colors.black),
-                onTap: () => Navigator.pop(context),
+                onTap: () =>
+                    Navigator.pushReplacementNamed(context, 'vehiculos'),
               ),
               margin: const EdgeInsets.only(right: 24),
             )

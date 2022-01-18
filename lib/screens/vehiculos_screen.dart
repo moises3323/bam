@@ -11,16 +11,12 @@ class VehiculosScreen extends StatefulWidget {
   State<VehiculosScreen> createState() => _VehiculosScreenState();
 }
 
-class _VehiculosScreenState extends State<VehiculosScreen>
-    with AutomaticKeepAliveClientMixin {
+class _VehiculosScreenState extends State<VehiculosScreen> {
   @override
   void initState() {
     BlocProvider.of<ConcesionarioBloc>(context).add(ObtenerVehiculos());
     super.initState();
   }
-
-  @override
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
